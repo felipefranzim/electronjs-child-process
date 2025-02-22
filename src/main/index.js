@@ -13,7 +13,7 @@ ipcMain.handle('executar-exe', async (event, caminhoExe) => {
   processo.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`);
 
-    if(`${data}`.trim() == 'WebSocket Started'){
+    if(`${data}`.trim() == 'Service Started'){
       console.log('Abrindo...')
       mainWindow.webContents.send('websocketOpen', true);
     } else {
