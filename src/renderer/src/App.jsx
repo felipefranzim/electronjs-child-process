@@ -1,5 +1,5 @@
 import Versions from './components/Versions'
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import electronLogo from './assets/electron.svg'
 import useWebSocket from 'react-use-websocket';
 import { CameraRequest } from '../../biometric/requests/CameraRequest';
@@ -9,11 +9,38 @@ import { CameraStatus } from '../../biometric/enums/CameraStatus';
 import Camera from '../../biometric/components/Camera';
 
 function App() {
+  const ref = useRef();
+  const [isServerUp, setIsServerUp] = useState(false);
 
+  const startCameraServer = () => {
+    window.electronProcess.executarExe(`C:\\Users\\operador\\Documents\\Bitbucket\\Cameras\\valid-cameras-webcam\\src\\Valid.Cameras.Webcam.Server\\bin\\Debug\\net9.0\\Valid.Cameras.${'webcam'}.Server.exe`)
+    setIsServerUp(true);
+  }
+
+  const closeCamera = () => {
+    window.electronProcess.fecharExe();
+    setWebSocketUrl(null);
+  }
+
+  const onImageAcquired = (image) => {
+    console.log('Imagem capturada:')
+    console.log(image);
+  }
+
+  useEffect(() => {
+    if (!ref.current) {
+      startCameraServer();
+      ref.current = true;
+    }
+  }, [ref.current]);
 
   return (
     <>
-      <Camera cameraName='webcam' />
+      {
+        isServerUp && (
+          <Camera cameraName='webcam' autoPlay={true} onImageAcquiredHandler={onImageAcquired} onErrorHandler={closeCamera} />
+        )
+      }
 
       <div className="text">
         Teste do Biometrics com <span className="react">Electron JS</span>

@@ -13,9 +13,9 @@ class CameraRequest extends RequestBase {
     constructor(
         command: CameraCommandType,
         cameraName: string,
-        imageDPI: number,
-        finalImageWidth: number,
-        finalImageHeight: number,
+        imageDPI: number = 300,
+        finalImageWidth: number = 480,
+        finalImageHeight: number = 640,
         cameraInstallationDirectory?: string
     ) {
         super();
