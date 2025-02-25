@@ -38,7 +38,7 @@ function App() {
     <>
       {
         isServerUp && (
-          <Camera cameraName='webcam' autoPlay={true} onImageAcquiredHandler={onImageAcquired} onErrorHandler={closeCamera} />
+          <Camera cameraName='webcam' autoPlay={true} autoApprove={false} onImageAcquiredHandler={onImageAcquired} onErrorHandler={closeCamera} />
         )
       }
 
